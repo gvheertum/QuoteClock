@@ -8,6 +8,7 @@ namespace QuoteClock.Library
 	public class QuoteElement
 	{
 		public string Raw {get;set;}
+		public int LineIndex {get;set;}
 		public string TimeString {get;set;}
 		public string TimeStringInQuote {get;set;}
 		public int Hour { get;set;}
@@ -33,12 +34,12 @@ namespace QuoteClock.Library
 		public List<QuoteElement> ReadQuotes()
 		{
 			var lines = System.IO.File.ReadAllLines(_fileName);
-			return lines.Select(GetQuoteElementFromLine).ToList();
+			return lines.Select((e, i) => GetQuoteElementFromLine(e, i)).ToList();
 		}
 
-		private QuoteElement GetQuoteElementFromLine(string line)
+		private QuoteElement GetQuoteElementFromLine(string line, int lineIndex)
 		{
-			var qe = new QuoteElement() { Raw = line };
+			var qe = new QuoteElement() { Raw = line, LineIndex = lineIndex };
 			try
 			{
 				string[] spl = line.Split(new [] { '|' }, StringSplitOptions.None);
@@ -49,6 +50,8 @@ namespace QuoteClock.Library
 				qe.Title = GetPartFromSplitted(spl, 3);
 				qe.Author = GetPartFromSplitted(spl, 4);
 			
+				FixTimeInQuote(qe);
+
 				return qe;
 			}
 			catch(Exception e)
@@ -56,6 +59,13 @@ namespace QuoteClock.Library
 				qe.Error = e.Message;
 				return qe;
 			}
+		}
+
+		private void FixTimeInQuote(QuoteElement element)
+		{
+			//TODO: Fail safe
+			element.Hour = int.Parse(element.TimeString.Split(new [] {':'}, StringSplitOptions.None)[0]);
+			element.Minute = int.Parse(element.TimeString.Split(new [] {':'}, StringSplitOptions.None)[1]);
 		}
 
 		private string GetPartFromSplitted(string[] splitted, int index)

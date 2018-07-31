@@ -18,24 +18,35 @@ namespace QuoteClock.Controllers
             _env = env;
         }	
 
-        public IActionResult Index()
+		//IActionResult
+        public string Index(int? hour, int? minute)
         {
-            return View();
+            var quote = GetQuoteFromMatches(GetQuoteForTime(hour.Value,minute.Value));
+			return quote != null ? quote.Quote : "No quote for time";
         }
 
-		public string AllQuotes()
+		public string Random()
+		{
+			return "Not implemented yet";
+		}
+
+
+		public string All()
 		{
 			System.Text.StringBuilder sb = new System.Text.StringBuilder();
 			var quotes = GetQuotes();
-			quotes.ToList().ForEach(i => sb.AppendLine(i.Quote));
+			quotes.ToList().ForEach(i => sb.AppendLine($"{i.TimeString} ({i.TimeStringInQuote}) -> {i.Quote} ({i.Author} @ {i.Title})"));
 			return sb.ToString();
 		}
 
 		public string Errors()
 		{
 			var errors = GetQuotes().Where(q => !string.IsNullOrWhiteSpace(q.Error)).ToList();
+			if(!errors.Any()) { return "No errors, file seems clean"; }
+
 			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			errors.ToList().ForEach(i => sb.AppendLine($"{i.Error} -> {i.Raw}"));
+			sb.AppendLine($"Found {errors.Count()} errors:");
+			errors.ToList().ForEach(i => sb.AppendLine($"Line: {i.LineIndex} !{i.Error} -> {i.Raw}"));
 			return sb.ToString();
 		}
 
@@ -52,5 +63,15 @@ namespace QuoteClock.Controllers
 		}
 
 
+		private IEnumerable<QuoteElement> GetQuoteForTime(int hour, int minute)
+		{
+			return GetQuotes().Where(q => q.Hour == hour && q.Minute == minute);
+		}
+
+		private QuoteElement GetQuoteFromMatches(IEnumerable<QuoteElement> elements)
+		{
+			if(!elements.Any()) { return null; }
+			return elements.ElementAt(new Random().Next(0, elements.Count()));
+		}
 	}
 }
