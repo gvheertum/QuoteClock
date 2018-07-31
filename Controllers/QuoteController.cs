@@ -18,6 +18,18 @@ namespace QuoteClock.Controllers
             _env = env;
         }	
 
+        [HttpGet("api/quote/get/{hour}/{minute}")]
+        [HttpGet("api/quote/get/")]
+        public string Get(int? hour, int? minute)
+		{
+			if(hour == null && minute == null)
+			{
+				hour = DateTime.Now.Hour;
+				minute = DateTime.Now.Hour;
+			}
+			return Index(hour ?? 0, minute ?? 0);
+		}
+
 		//IActionResult
         public string Index(int? hour, int? minute)
         {
