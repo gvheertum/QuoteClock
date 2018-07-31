@@ -7,6 +7,7 @@ namespace QuoteClock.Library
 {
 	public class QuoteElement
 	{
+		public string Raw {get;set;}
 		public string TimeString {get;set;}
 		public string TimeStringInQuote {get;set;}
 		public int Hour { get;set;}
@@ -14,6 +15,7 @@ namespace QuoteClock.Library
 		public string Quote {get;set;}
 		public string Title {get;set;}
 		public string Author {get;set;}
+		public string Error {get;set;}
 	}
 
 	public class QuoteContainer 
@@ -36,21 +38,29 @@ namespace QuoteClock.Library
 
 		private QuoteElement GetQuoteElementFromLine(string line)
 		{
-			string[] spl = line.Split(new [] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+			var qe = new QuoteElement() { Raw = line };
+			try
+			{
+				string[] spl = line.Split(new [] { '|' }, StringSplitOptions.None);
 			
-			return new QuoteElement() 
-			{ 
-				TimeString = GetPartFromSplitted(spl, 0, ""),
-				TimeStringInQuote = GetPartFromSplitted(spl, 1, "?"),
-				Quote = GetPartFromSplitted(spl, 2, "No-Quote"),
-				Title = GetPartFromSplitted(spl, 3, "No Title"),
-				Author = GetPartFromSplitted(spl, 4, "No Author"),
-			};
+				qe.TimeString = GetPartFromSplitted(spl, 0);
+				qe.TimeStringInQuote = GetPartFromSplitted(spl, 1);
+				qe.Quote = GetPartFromSplitted(spl, 2);
+				qe.Title = GetPartFromSplitted(spl, 3);
+				qe.Author = GetPartFromSplitted(spl, 4);
+			
+				return qe;
+			}
+			catch(Exception e)
+			{
+				qe.Error = e.Message;
+				return qe;
+			}
 		}
 
-		private string GetPartFromSplitted(string[] splitted, int index, string defaultText)
+		private string GetPartFromSplitted(string[] splitted, int index)
 		{
-			if(splitted.Length <= index || string.IsNullOrWhiteSpace(splitted[index])) { return defaultText; }
+			if(splitted.Length <= index || string.IsNullOrWhiteSpace(splitted[index])) { throw new Exception($"Cannot read element in idx: {index}"); }
 			return splitted[index];
 		}
 	}

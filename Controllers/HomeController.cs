@@ -22,21 +22,6 @@ namespace QuoteClock.Controllers
             return View();
         }
 
-		public string Quotes()
-		{
-			var quotes = new Library.QuoteFileReader(GetQuoteFileLocation()).ReadQuotes();
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			quotes.Take(100).ToList().ForEach(i => sb.AppendLine(i.Quote));
-			return sb.ToString();
-		}
-
-		private string GetQuoteFileLocation()
-		{
-			var webRoot = _env.WebRootPath;
-            var file = System.IO.Path.Combine(webRoot, "timeqoutes.txt");
-			return file;
-		}
-
         public IActionResult Error()
         {
             ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
