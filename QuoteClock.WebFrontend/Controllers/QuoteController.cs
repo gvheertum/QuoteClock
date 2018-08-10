@@ -30,60 +30,35 @@ namespace QuoteClock.Controllers
 			return Index(hour ?? 0, minute ?? 0);
 		}
 
+		
+
 		//IActionResult
         public string Index(int? hour, int? minute)
         {
-            var quote = GetQuoteFromMatches(GetQuoteForTime(hour.Value,minute.Value));
-			return quote != null ? quote.Quote : "No quote for time";
+			var qc = GetQuoteContainer();
+            var quote = qc.GetQuoteForTimeSingle(hour.Value, minute.Value);
+			return quote != null ? FormatQuote(quote) : "No quote for time";
         }
 
+        [HttpGet("api/quote/random/")]
 		public string Random()
 		{
-			return "Not implemented yet";
+			var qc = GetQuoteContainer();
+			return FormatQuote(qc.GetRandom());
 		}
 
-
-		public string All()
+		private string FormatQuote(QuoteElement q)
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			var quotes = GetQuotes();
-			quotes.ToList().ForEach(i => sb.AppendLine($"{i.TimeString} ({i.TimeStringInQuote}) -> {i.Quote} ({i.Author} @ {i.Title})"));
-			return sb.ToString();
+			return $@"{q.TimeString}-{q.TimeStringInQuote}\r\n{q.Quote}\r\n@{q.Author}";
 		}
 
-		public string Errors()
-		{
-			var errors = GetQuotes().Where(q => !string.IsNullOrWhiteSpace(q.Error)).ToList();
-			if(!errors.Any()) { return "No errors, file seems clean"; }
-
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			sb.AppendLine($"Found {errors.Count()} errors:");
-			errors.ToList().ForEach(i => sb.AppendLine($"Line: {i.LineIndex} !{i.Error} -> {i.Raw}"));
-			return sb.ToString();
-		}
-
-		private IEnumerable<QuoteElement> GetQuotes()
-		{
-			return new Library.QuoteFileReader(GetQuoteFileLocation()).ReadQuotes();
-		}
-
-		private string GetQuoteFileLocation()
+		private Library.QuoteContainer GetQuoteContainer()
 		{
 			var webRoot = _env.WebRootPath;
-            var file = System.IO.Path.Combine(webRoot, "timeqoutes.txt");
-			return file;
+            var file = System.IO.Path.Combine(webRoot, "timequotes.txt");
+			return new Library.QuoteContainer(new Library.QuoteFileReader(file));
 		}
 
 
-		private IEnumerable<QuoteElement> GetQuoteForTime(int hour, int minute)
-		{
-			return GetQuotes().Where(q => q.Hour == hour && q.Minute == minute);
-		}
-
-		private QuoteElement GetQuoteFromMatches(IEnumerable<QuoteElement> elements)
-		{
-			if(!elements.Any()) { return null; }
-			return elements.ElementAt(new Random().Next(0, elements.Count()));
-		}
 	}
 }
