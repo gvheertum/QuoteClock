@@ -1,0 +1,9 @@
+<h1>Quotes</h1>
+
+<p *ngIf="!quote"><em>Loading...</em></p>
+
+<div class='quote' *ngIf="quote">
+	<div class='heading'>{{ quote.timeStringInQuote }}</div>
+	<div class='text'>{{ quote.quote}}</div>
+	<div class='author'>{{ quote.author}}</div>
+</div>

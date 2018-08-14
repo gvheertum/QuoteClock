@@ -20,7 +20,7 @@ namespace QuoteClock.Controllers
 
         [HttpGet("api/quote/get/{hour}/{minute}")]
         [HttpGet("api/quote/get/")]
-        public string Get(int? hour, int? minute)
+        public JsonResult Get(int? hour, int? minute)
 		{
 			if(hour == null && minute == null)
 			{
@@ -33,24 +33,37 @@ namespace QuoteClock.Controllers
 		
 
 		//IActionResult
-        public string Index(int? hour, int? minute)
+        public JsonResult Index(int? hour, int? minute)
         {
 			var qc = GetQuoteContainer();
             var quote = qc.GetQuoteForTimeSingle(hour.Value, minute.Value);
-			return quote != null ? FormatQuote(quote) : "No quote for time";
+			return Json(quote != null ? quote : GetEmptyQuote(hour.Value,minute.Value));
         }
 
-        [HttpGet("api/quote/random/")]
-		public string Random()
+		private QuoteElement GetEmptyQuote(int hour, int minute)
 		{
-			var qc = GetQuoteContainer();
-			return FormatQuote(qc.GetRandom());
+			return new QuoteElement()
+			{
+				Hour = hour,
+				Minute = minute,
+				Author = "Gertjan",
+				Quote = "Look at the clock! There is not time for quotes!",
+				TimeString = hour.ToString().PadLeft(2, '0')  + ":" + minute.ToString().PadLeft(2, '0'),
+				TimeStringInQuote = "No time!"
+			};
 		}
 
-		private string FormatQuote(QuoteElement q)
+        [HttpGet("api/quote/random/")]
+		public JsonResult Random()
 		{
-			return $@"{q.TimeString}-{q.TimeStringInQuote}\r\n{q.Quote}\r\n@{q.Author}";
+			var qc = GetQuoteContainer();
+			return Json(qc.GetRandom());
 		}
+
+		// private string FormatQuote(QuoteElement q)
+		// {
+		// 	return $@"{q.TimeString}-{q.TimeStringInQuote}\r\n{q.Quote}\r\n@{q.Author}";
+		// }
 
 		private Library.QuoteContainer GetQuoteContainer()
 		{

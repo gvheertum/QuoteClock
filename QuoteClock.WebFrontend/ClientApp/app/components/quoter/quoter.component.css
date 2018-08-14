@@ -1,0 +1,21 @@
+.quote .heading
+{
+	width: 500px;
+	margin: auto;
+	color: #0000FF;
+	font-size: 1.2em;
+}
+.quote .text
+{
+	width: 500px;
+	margin: auto;
+	color: #444444;
+}
+
+.quote .author
+{
+	width: 500px;
+	margin:auto;
+	color: #AAAAAA;
+	text-align: right;
+}
