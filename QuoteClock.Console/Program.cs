@@ -17,9 +17,13 @@ namespace QuoteClock.Console
 		private static string GetQuoteFilePath()
 		{
 			string determinedPath = AppContext.BaseDirectory;
-			if(determinedPath.IndexOf("bin/Debug") > -1) 
+			if(determinedPath.IndexOf("/bin/") > -1) 
 			{ 
-				determinedPath = determinedPath.Substring(0, determinedPath.IndexOf("/bin/Debug")); 
+				determinedPath = determinedPath.Substring(0, determinedPath.IndexOf("/bin/")); 
+			}
+			if(determinedPath.IndexOf("\\bin\\") > -1) 
+			{ 
+				determinedPath = determinedPath.Substring(0, determinedPath.IndexOf("\\bin\\")); 
 			}
 			System.Console.WriteLine($"We think the quotes are at: {determinedPath}");
 			determinedPath = System.IO.Path.Combine(determinedPath, "timequotes.txt");
