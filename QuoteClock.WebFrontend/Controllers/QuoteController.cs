@@ -46,6 +46,7 @@ namespace QuoteClock.Controllers
 			{
 				Hour = hour,
 				Minute = minute,
+				Title = "Eigen werk",
 				Author = "Gertjan",
 				Quote = "Look at the clock! There is not time for quotes!",
 				TimeString = hour.ToString().PadLeft(2, '0')  + ":" + minute.ToString().PadLeft(2, '0'),

@@ -59,6 +59,7 @@ interface IQuote
 	minute : number;
 	author : string;
 	quote: string;
+	title: string;
 	timeString: string;
 	timeStringInQuote: string;
 }
