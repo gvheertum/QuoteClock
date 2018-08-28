@@ -10,7 +10,7 @@ export class QuoterComponent
 {
 	private baseUrl : string;
 	private http : Http;
-	private quote: IQuote | null;
+	public quote: IQuote | null;
 	private minute: number | null;
 	private hour: number | null;
 	constructor(http: Http, @Inject('BASE_URL') baseUrl: string) 

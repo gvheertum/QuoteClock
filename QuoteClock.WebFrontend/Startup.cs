@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace QuoteClock
 {
@@ -42,7 +43,12 @@ namespace QuoteClock
             }
 
             app.UseStaticFiles();
-
+			app.UseStaticFiles(new StaticFileOptions() { 
+				FileProvider = new PhysicalFileProvider(
+					System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), 
+					@"wwwroot")
+				) 
+			});
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
