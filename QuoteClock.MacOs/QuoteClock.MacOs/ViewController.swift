@@ -22,6 +22,7 @@ class ViewController: NSViewController {
 	
 		// Do any additional setup after loading the view.
 		loadQuote();
+		startTimer();
 	}
 
 	override var representedObject: Any? {
@@ -35,8 +36,9 @@ class ViewController: NSViewController {
 		loadQuote();
 	}
 	
-	func loadQuote()
+	@objc public func loadQuote()
 	{
+		print("called loadQuote");
 		let qr : QuoteRetriever = QuoteRetriever();
 		
 		//Listen to the quote change
@@ -44,6 +46,11 @@ class ViewController: NSViewController {
 		
 		//Run forrest run!
 		qr.GetQuote();
+	}
+	
+	func startTimer()
+	{
+		var t = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(loadQuote), userInfo: nil, repeats: true);
 	}
 	
 	func QuoteChanged(quote: Quote?)
