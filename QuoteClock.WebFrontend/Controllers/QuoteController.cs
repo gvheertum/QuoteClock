@@ -25,7 +25,7 @@ namespace QuoteClock.Controllers
 			if(hour == null && minute == null)
 			{
 				hour = DateTime.Now.Hour;
-				minute = DateTime.Now.Hour;
+				minute = DateTime.Now.Minute;
 			}
 			return Index(hour ?? 0, minute ?? 0);
 		}
