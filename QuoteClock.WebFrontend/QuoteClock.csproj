@@ -20,7 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\QuoteClock.Library\QuoteClock.Library.csproj" />
     <Content Include="Controllers\QuoteController.cs" />
-    <Content Include="wwwroot\timeqoutes.txt" />
+    <Content Include="../timeqoutes.txt" />
   </ItemGroup>
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
     <!-- Ensure Node.js is installed -->

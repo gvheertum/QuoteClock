@@ -7,5 +7,8 @@
     <Content Include="QuoteFileReader.cs" />
     <Content Include="QuoteContainer.cs" />
     <Content Include="QuoteElement.cs" />
-  </ItemGroup>
+    <Content Include="../timequotes.txt"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>  
 </Project>

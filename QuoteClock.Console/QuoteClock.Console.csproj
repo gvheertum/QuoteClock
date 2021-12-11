@@ -9,6 +9,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QuoteClock.Library\QuoteClock.Library.csproj" />
-    <Content Include="timeqoutes.txt" />
+    <Content Include="../timequotes.txt"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
