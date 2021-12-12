@@ -2,25 +2,26 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using System.IO;
 
 namespace QuoteClock.Library
 {
 
 	public class QuoteFileReader
 	{
+		public const string TimeQuotesFileName = "timequotes.txt";
 		private string _fileName;
 		public QuoteFileReader(string fileName)
 		{
 			_fileName = fileName;
-			if(!System.IO.File.Exists(_fileName))
-			{
-				throw new Exception($"File {_fileName} could not be found");
-			}
 		}
+
+		
 
 		public List<QuoteElement> ReadQuotes()
 		{
-			var lines = System.IO.File.ReadAllLines(_fileName);
+			var lines = ReadQuotesFromResource(_fileName).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 			return lines.Select((e, i) => GetQuoteElementFromLine(e, i)).ToList();
 		}
 
@@ -46,6 +47,30 @@ namespace QuoteClock.Library
 				qe.Error = e.Message;
 				return qe;
 			}
+		}
+
+		private string ReadQuotesFromResource(string name)
+		{
+			// Determine path
+			var assembliesToLook = new Assembly[] { typeof(QuoteElement).Assembly, Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly() };
+			foreach(var assembly in assembliesToLook)
+			{
+				var resourcePath = assembly?.GetManifestResourceNames()
+						.SingleOrDefault(str => str.EndsWith(name));
+				
+				if(resourcePath == null) { continue; }
+
+				using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
+				{
+					using (StreamReader reader = new StreamReader(stream))
+					{
+						return reader.ReadToEnd();
+					}
+				}
+			}
+
+			// If we did not return by now the file was in none of the calling assemblies and the own assembly
+			throw new ArgumentException($"The file {name} was not found in the assemblies");
 		}
 
 		private void FixTimeInQuote(QuoteElement element)
