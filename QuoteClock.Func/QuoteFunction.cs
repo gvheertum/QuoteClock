@@ -14,7 +14,7 @@ namespace QuoteClock.Func
     {
         [FunctionName("Quote_Time")]
         public static async Task<IActionResult> GetQuoteTime(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Quote/{hourString}/{minuteString}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Quote/{hourString}/{minuteString}")] HttpRequest req,
             string hourString,
             string minuteString,
             ILogger log)
@@ -31,7 +31,7 @@ namespace QuoteClock.Func
 
         [FunctionName("Quote_Now")]
         public static async Task<IActionResult> GetQuoteForCurrentTime(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Quote/")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Quote/")] HttpRequest req,
             ILogger log)
         {
             DateTime curr = DateTime.UtcNow;

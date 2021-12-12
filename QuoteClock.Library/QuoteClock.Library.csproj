@@ -4,11 +4,15 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="timequotes.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="QuoteFileReader.cs" />
     <Content Include="QuoteContainer.cs" />
     <Content Include="QuoteElement.cs" />
-    <Content Include="../timequotes.txt"> 
+    <EmbeddedResource Include="timequotes.txt" />
+    <Resource Include="../timequotes.txt"> 
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Resource>
   </ItemGroup>  
 </Project>

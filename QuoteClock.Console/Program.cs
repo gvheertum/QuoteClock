@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace QuoteClock.Console
 {
@@ -6,7 +7,9 @@ namespace QuoteClock.Console
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Quote generator");
+			ReadResources();
+			//TODO: get now if no date provided
+			System.Console.WriteLine("Quote generator");
 			var reader = new Library.QuoteFileReader(GetQuoteFilePath());
 			var quoteContainer = new Library.QuoteContainer(reader);
 			while(true)
@@ -14,9 +17,20 @@ namespace QuoteClock.Console
 				RunQuote(quoteContainer);
 			}
         }
+
 		private static string GetQuoteFilePath()
 		{
 			return "timequotes.txt";
+		}
+
+		private static void ReadResources()
+        {
+			var assembly = typeof(Library.QuoteContainer).Assembly;
+			var resourceNames = assembly.GetManifestResourceNames();
+			foreach(var n in resourceNames)
+            {
+                System.Console.WriteLine(n);
+            }
 		}
 
 		private static void RunQuote(Library.QuoteContainer container)
