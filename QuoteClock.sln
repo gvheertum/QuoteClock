@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuoteClock", "QuoteClock.WebFrontend\QuoteClock.csproj", "{7BC89C8B-2472-40EF-AA15-2ECC50AF2C2C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuoteClock.Library", "QuoteClock.Library\QuoteClock.Library.csproj", "{7C66C534-E591-4265-A9C2-5FDAA3B19582}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7BC89C8B-2472-40EF-AA15-2ECC50AF2C2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC89C8B-2472-40EF-AA15-2ECC50AF2C2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC89C8B-2472-40EF-AA15-2ECC50AF2C2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC89C8B-2472-40EF-AA15-2ECC50AF2C2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C66C534-E591-4265-A9C2-5FDAA3B19582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C66C534-E591-4265-A9C2-5FDAA3B19582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C66C534-E591-4265-A9C2-5FDAA3B19582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C66C534-E591-4265-A9C2-5FDAA3B19582}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94BCCE2C-9601-440D-B5DC-0575DC76D0F0}
+	EndGlobalSection
+EndGlobal
