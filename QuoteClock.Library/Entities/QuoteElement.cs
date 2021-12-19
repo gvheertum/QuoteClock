@@ -1,9 +1,7 @@
-namespace QuoteClock.Library
+namespace QuoteClock.Library.Entities
 {
-	public class QuoteElement
-	{
-		public string Raw {get;set;}
-		public int LineIndex {get;set;}
+    public class QuoteElementTime : QuoteElementBase
+	{	
 		public string TimeString {get;set;}
 		public string TimeStringInQuote {get;set;}
 		public int Hour { get;set;}

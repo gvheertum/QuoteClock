@@ -10,8 +10,16 @@
     <Content Include="QuoteFileReader.cs" />
     <Content Include="QuoteContainer.cs" />
     <Content Include="QuoteElement.cs" />
-    <EmbeddedResource Include="timequotes.txt" />
+    <EmbeddedResource Include="../timequotes.txt" />
     <Resource Include="../timequotes.txt"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+        <EmbeddedResource Include="../oudeuitdrukkingen.txt" />
+    <Resource Include="../oudeuitdrukkingen.txt"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <EmbeddedResource Include="../oudevloekwoorden.txt" />
+    <Resource Include="../oudevloekwoorden.txt"> 
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>  
