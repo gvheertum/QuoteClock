@@ -7,14 +7,15 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using QuoteClock.Library.Entities;
 
 namespace QuoteClock.Func
 {
-    public static class QuoteFunction
+    public class QuoteFunctionTime : QuoteFunctionBase<QuoteElementTime, QuoteHandlerTime>
     {
-        [FunctionName("Quote_Time")]
-        public static async Task<IActionResult> GetQuoteTime(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Quote/{hourString}/{minuteString}")] HttpRequest req,
+        [FunctionName($"{nameof(QuoteFunctionTime)}_{nameof(GetSpecific)}")]
+        public async Task<IActionResult> GetSpecific(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ROUTE_TIME_SPECIFIC)] HttpRequest req,
             string hourString,
             string minuteString,
             ILogger log)
@@ -25,20 +26,25 @@ namespace QuoteClock.Func
                 return new OkObjectResult("Invalid request, hour and/or minute part were invalid"); //TODO: This should fail, get correct type
             }
                         
-            var q = new QuoteHandler(log).GetQuote(hour, minute);
+            var q = GetHandler(log).GetQuote(hour, minute);
             return new OkObjectResult(q);
         }
 
-        [FunctionName("Quote_Now")]
-        public static async Task<IActionResult> GetQuoteForCurrentTime(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Quote/")] HttpRequest req,
+        [FunctionName($"{nameof(QuoteFunctionTime)}_{nameof(GetCurrent)}")]
+        public async Task<IActionResult> GetCurrent(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = ROUTE_TIME)] HttpRequest req,
             ILogger log)
         {
             DateTime curr = DateTime.UtcNow;
             log.LogInformation($"Get quote for current, current UTC: {curr.ToString()}");
             
-            var q = new QuoteHandler(log).GetQuote(curr.Hour, curr.Minute);            
+            var q = GetHandler(log).GetQuote(curr.Hour, curr.Minute);            
             return new OkObjectResult(q);
+        }
+
+        protected override QuoteHandlerTime GetHandler(ILogger log)
+        {
+            return new QuoteHandlerTime(log);
         }
     }
 }
