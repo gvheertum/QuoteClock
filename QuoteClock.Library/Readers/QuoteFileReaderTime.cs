@@ -3,11 +3,11 @@ using System.Collections;
 using QuoteClock.Library;
 using QuoteClock.Library.Entities;
 
-namespace QuoteClock.Library
+namespace QuoteClock.Library.Reader
 {
     public class QuoteFileReaderTime : QuoteFileReaderBase<QuoteElementTime>
 	{
-		public const string TimeQuotesFileName = "timequotes.txt";
+		public const string DefaultFileName = "timequotes.txt";
 		public QuoteFileReaderTime(string fileName) : base(fileName) {}		
 
 		protected override QuoteElementTime ParseElementFromLine(string line, int lineIndex)

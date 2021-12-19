@@ -4,5 +4,7 @@ namespace QuoteClock.Library.Entities
 	{
 		public string Raw {get;set;}
 		public int LineIndex {get;set;}
+		public string Error {get;set;}
+
 	}
 }

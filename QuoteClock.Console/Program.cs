@@ -9,15 +9,15 @@ namespace QuoteClock.Console
         {
 			//TODO: get now if no date provided
 			System.Console.WriteLine("Quote generator");
-			var reader = new Library.QuoteFileReader(Library.QuoteFileReader.TimeQuotesFileName);
-			var quoteContainer = new Library.QuoteContainer(reader);
+			var reader = new Library.QuoteFileReaderTime(Library.QuoteFileReaderTime.DefaultFileName);
+			var quoteContainer = new Library.QuoteContainerTime(reader);
 			while(true)
 			{
 				RunQuote(quoteContainer);
 			}
         }
 
-		private static void RunQuote(Library.QuoteContainer container)
+		private static void RunQuote(Library.QuoteContainerTime container)
 		{
 			var qr = new QuoteInputHandling();
 			var request = qr.GetInputRequest();
@@ -40,7 +40,7 @@ namespace QuoteClock.Console
 			ShowQuote(q);
 		}
 
-		private static void ShowQuote(Library.QuoteElement quote)
+		private static void ShowQuote(Library.QuoteElementTime quote)
 		{
 			System.Console.WriteLine("***************************");
 			System.Console.WriteLine($"{quote.Hour.ToString().PadLeft(2,'0')}:{quote.Minute.ToString().PadLeft(2,'0')}");

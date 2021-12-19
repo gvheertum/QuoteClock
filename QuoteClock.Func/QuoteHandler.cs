@@ -1,5 +1,7 @@
 using QuoteClock.Library;
 using Microsoft.Extensions.Logging;
+using QuoteClock.Library.Entities;
+
 namespace QuoteClock.Func
 {
     public class QuoteHandler {
@@ -21,9 +23,9 @@ namespace QuoteClock.Func
             return qe?.Raw ?? "No Content";
         }
 
-        private QuoteContainer GetQuoteReader() 
+        private QuoteContainerTime GetQuoteReader() 
         {            
-			return new QuoteContainer(new QuoteFileReader("timequotes.txt"));
+			return new QuoteContainerFactory(new Library.Reader.QuoteFileReaderFactory()).GetQuoteContainerTime();
         }
     }
 }

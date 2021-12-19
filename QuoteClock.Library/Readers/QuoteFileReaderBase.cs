@@ -5,7 +5,7 @@ using System.Reflection;
 using System.IO;
 using QuoteClock.Library.Entities;
 
-namespace QuoteClock.Library
+namespace QuoteClock.Library.Reader
 {
     public abstract class QuoteFileReaderBase<T> where T : QuoteElementBase
 {
@@ -14,16 +14,14 @@ namespace QuoteClock.Library
 		{
 			_fileName = fileName;
 		}
-
 		
-
-		public List<T> ReadQuotes()
+		public List<T> ReadData()
 		{
-			var lines = ReadQuotesFromResource(_fileName).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+			var lines = ReadDataFromResource(_fileName).Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 			return lines.Select((e, i) => ParseElementFromLine(e, i)).ToList();
 		}
 
-		private string ReadQuotesFromResource(string name)
+		private string ReadDataFromResource(string name)
 		{
 			// Determine path
 			var assembliesToLook = new Assembly[] { typeof(QuoteElementTime).Assembly, Assembly.GetExecutingAssembly(), Assembly.GetEntryAssembly() };
@@ -47,18 +45,12 @@ namespace QuoteClock.Library
 			throw new ArgumentException($"The file {name} was not found in the assemblies");
 		}
 
-		protected abstract T ParseElementFromLine(string line, int lineIndex);
-
-		
+		protected abstract T ParseElementFromLine(string line, int lineIndex);		
 
 		protected string GetPartFromSplitted(string[] splitted, int index)
 		{
 			if(splitted.Length <= index || string.IsNullOrWhiteSpace(splitted[index])) { throw new Exception($"Cannot read element in idx: {index}"); }
 			return splitted[index];
 		}
-
-
-	
-	
-}
+    }
 }

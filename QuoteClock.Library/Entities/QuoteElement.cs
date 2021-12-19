@@ -9,6 +9,5 @@ namespace QuoteClock.Library.Entities
 		public string Quote {get;set;}
 		public string Title {get;set;}
 		public string Author {get;set;}
-		public string Error {get;set;}
 	}
 }

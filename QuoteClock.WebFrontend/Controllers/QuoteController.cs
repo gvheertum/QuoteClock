@@ -40,9 +40,9 @@ namespace QuoteClock.Controllers
 			return Json(quote != null ? quote : GetEmptyQuote(hour.Value,minute.Value));
         }
 
-		private QuoteElement GetEmptyQuote(int hour, int minute)
+		private QuoteElementTime GetEmptyQuote(int hour, int minute)
 		{
-			return new QuoteElement()
+			return new QuoteElementTime()
 			{
 				Hour = hour,
 				Minute = minute,
@@ -66,11 +66,11 @@ namespace QuoteClock.Controllers
 		// 	return $@"{q.TimeString}-{q.TimeStringInQuote}\r\n{q.Quote}\r\n@{q.Author}";
 		// }
 
-		private Library.QuoteContainer GetQuoteContainer()
+		private Library.QuoteContainerTime GetQuoteContainer()
 		{
 			var webRoot = _env.WebRootPath;
             var file = System.IO.Path.Combine(webRoot, "timequotes.txt");
-			return new Library.QuoteContainer(new Library.QuoteFileReader(file));
+			return new Library.QuoteContainerTime(new Library.QuoteFileReaderTime(file));
 		}
 
 
