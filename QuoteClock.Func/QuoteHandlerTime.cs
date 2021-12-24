@@ -9,10 +9,23 @@ namespace QuoteClock.Func
         {
         }
 
-        public string GetQuote(int hour, int minute){
+        public QuoteElementTime GetQuote(int hour, int minute){
             _log.LogInformation($"Getting quote for: {hour.ToString().PadLeft(2,'0')}:{minute.ToString().PadLeft(2,'0')}");            
             var qe = (GetQuoteReader() as QuoteContainerTime).GetQuoteForTimeSingle(hour,minute); //Safely assume we are getting the time container here
-            return qe?.Raw ?? "No Content";            
+            return qe ?? GetEmptyResponse(hour,minute);            
+        }
+
+        private QuoteElementTime GetEmptyResponse(int hour, int minute)
+        {
+            return new QuoteElementTime()
+            {
+                Hour = hour,
+                Minute = minute,
+                Quote = $"{hour.ToString().PadLeft(2, '0')}:{minute.ToString().PadLeft(2, '0')} already? There is no time for that!",
+                Author = "Unknown",
+                LineIndex = -1,
+                TimeString = $"{hour.ToString().PadLeft(2, '0')}:{minute.ToString().PadLeft(2, '0')}"
+            };
         }
 
         protected override QuoteContainerBase<QuoteElementTime> GetQuoteReader() 

@@ -8,7 +8,8 @@ namespace QuoteClock.Func
         where TT : QuoteHandlerBase<T>
     {
         public const string ROUTE_TIME_SPECIFIC = "Quote/Time/{hourString}/{minuteString}";
-        public const string ROUTE_TIME = "Quote/Time/";        
+        public const string ROUTE_TIME_RANDOM = "Quote/Time/Random";
+        public const string ROUTE_TIME_NOW = "Quote/Time/Now";
         public const string ROUTE_CURSE = "Quote/Curse/";        
         public const string ROUTE_GENTLESULT = "Quote/Gentlesult/";        
 

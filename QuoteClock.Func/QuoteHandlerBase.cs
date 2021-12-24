@@ -11,11 +11,11 @@ namespace QuoteClock.Func
             this._log = log;
         }
       
-        public string GetQuoteRandom()
+        public T GetQuoteRandom()
         {
             _log.LogInformation($"Getting random quote");            
             var qe = GetQuoteReader().GetRandom();
-            return qe?.Raw ?? "No Content";
+            return qe;
         }
 
         protected abstract QuoteContainerBase<T> GetQuoteReader();        

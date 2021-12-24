@@ -7,6 +7,8 @@ namespace QuoteClock.Func
     {
         public QuoteHandlerCurse(ILogger log) : base(log) {}
 
+
+
         protected override QuoteContainerBase<QuoteElementSingular> GetQuoteReader() 
         {            
 			return new QuoteContainerFactory(new Library.Reader.QuoteFileReaderFactory()).GetQuoteContainerCurse();
